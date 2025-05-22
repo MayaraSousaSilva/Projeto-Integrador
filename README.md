@@ -1,5 +1,5 @@
 # ANÁLISE DE SOLUÇÕES INTEGRADAS PARA ORGANIZAÇÕES
-Repositório destinado ao Projeto Integrador:ANÁLISE DE SOLUÇÕES INTEGRADAS PARA ORGANIZAÇÕES.
+Repositório destinado ao Projeto Integrador: Analise de soluções integradas para organização.
 
 O grupo contem 6 integrantes:
 
