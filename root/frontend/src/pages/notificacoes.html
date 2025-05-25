@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notificação - +SAÚDE</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="logo">+SAÚDE</h1>
+    <h2>Nova Notificação</h2>
+
+    <form id="formNotificacao">
+      <label for="data">Data:</label>
+      <input type="date" id="data" name="data" required />
+
+      <label for="horario">Horário:</label>
+      <input type="time" id="horario" name="horario">
+
+      <label for="tipo">Tipo de Notificação:</label>
+      <select id="tipo" name="tipo">
+        <option value="medicamento">Medicamento</option>
+        <option value="exame">Exame</option>
+        <option value="consulta">Consulta</option>
+      </select>
+
+      <label for="descricao">Descrição:</label>
+      <textarea id="descricao" name="descricao" placeholder="Digite a descrição..." rows="4"></textarea>
+
+      <button type="submit">Salvar</button>
+    </form>
+
+    <p id="mensagem" class="mensagem"></p>
+
+    <a href="home.html" class="btn-voltar">← Voltar</a>
+  </div>
+
+  <script src="../js/notificacoes.js"></script>
+</body>
+
+</html>
