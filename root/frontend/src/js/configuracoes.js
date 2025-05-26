@@ -56,15 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updates = { celular: novoCelular };
     if (senhaAtual) { // Envie a senha atual APENAS se o usuário preencheu o campo
-        updates.senhaAtual = senhaAtual;
+      updates.senhaAtual = senhaAtual;
     }
     if (novaSenha) { // Envie a nova senha APENAS se o usuário a preencheu
-        updates.password = novaSenha;
+      updates.password = novaSenha;
     }
     // Não envie nome ou email, pois eles são readonly e não devem ser alterados por esta rota
 
     try {
-      const response = await fetch(`http://localhost:3000/api/usuario/${usuarioLogado._id}`, {
+      const response = await fetch(`https://projeto-integrador-o5fj.onrender.com/api/usuario/${usuarioLogado._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates),
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!confirm("Tem certeza que deseja excluir sua conta?")) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/api/usuario/${usuarioLogado._id}`, {
+      const response = await fetch(`https://projeto-integrador-o5fj.onrender.com/api/usuario/${usuarioLogado._id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       });

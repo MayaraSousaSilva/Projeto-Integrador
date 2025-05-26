@@ -418,9 +418,7 @@ app.post('/api/forgot-password', async (req, res) => {
         user.resetPasswordExpires = Date.now() + 3600000;
         await user.save();
 
-        // ATENÇÃO: AJUSTE ESTE URL PARA ONDE SEU FRONTEND ESTÁ HOSPEDADO (ex: GitHub Pages URL)
-        // Por enquanto, pode ser 'http://localhost:5500' para teste local, mas precisa mudar para o deploy
-        const resetLink = `http://localhost:5500/src/pages/reset-password.html?token=${resetToken}`;
+        const resetLink = `https://MayaraSousaSilva.github.io/Projeto-Integrador/src/pages/reset-password.html?token=${resetToken}`;
 
         const mailOptions = {
             from: process.env.EMAIL_USER,

@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => { // Adicionado 'async
 
   // --- Lógica para CARREGAR dados do backend ---
   try {
-    const responseLoad = await fetch(`http://localhost:3000/api/historico?email=${usuarioLogado.email}`);
+    const responseLoad = await fetch(`https://projeto-integrador-o5fj.onrender.com/api/historico?email=${usuarioLogado.email}`);
     const dados = await responseLoad.json();
 
     if (responseLoad.ok && dados) { // Se a resposta for OK e houver dados de histórico
@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', async () => { // Adicionado 'async
       // Lógica para carregar arquivos (se houver, é mais complexa e depende de como você os armazena e recupera)
       // Por exemplo, exibir links para download dos arquivos.
     } else if (responseLoad.status === 404) {
-        // Usuário encontrado, mas sem histórico ainda (mensagem pode ser mais suave)
-        mensagem.textContent = 'Você ainda não possui histórico de saúde salvo. Preencha e salve!';
-        mensagem.style.color = 'blue';
+      // Usuário encontrado, mas sem histórico ainda (mensagem pode ser mais suave)
+      mensagem.textContent = 'Você ainda não possui histórico de saúde salvo. Preencha e salve!';
+      mensagem.style.color = 'blue';
     } else {
       mensagem.textContent = 'Erro ao carregar histórico: ' + (dados.message || 'Tente novamente.');
       mensagem.style.color = 'red';
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => { // Adicionado 'async
 
     try {
       // A rota POST /api/historico no backend já está configurada para criar OU atualizar
-      const response = await fetch('http://localhost:3000/api/historico', { // URL completa
+      const response = await fetch('https://projeto-integrador-o5fj.onrender.com/api/historico', {
         method: 'POST',
         body: formData // FormData é usado para enviar dados do formulário, incluindo arquivos
       });

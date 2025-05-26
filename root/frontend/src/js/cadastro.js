@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => { // Certifica que o DOM est
         }
 
         try {
-            const response = await fetch('http://localhost:3000/api/cadastro', {
+            const response = await fetch('https://projeto-integrador-o5fj.onrender.com/api/cadastro', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
