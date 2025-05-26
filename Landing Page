@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>+Saúde - Sua Saúde Organizada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-blue-700">+Saúde</h1>
+        <nav class="space-x-6 text-sm">
+          <a href="#sobre" class="text-gray-700 hover:text-blue-700">Sobre</a>
+          <a href="#funcionalidades" class="text-gray-700 hover:text-blue-700">Funcionalidades</a>
+          <a href="#contato" class="text-gray-700 hover:text-blue-700">Contato</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-blue-100 py-20 text-center">
+      <div class="max-w-3xl mx-auto px-4">
+        <h2 class="text-4xl font-bold text-blue-900 mb-4">Organize sua saúde com facilidade</h2>
+        <p class="text-lg text-blue-800 mb-6">+Saúde é o app para pacientes, profissionais e cuidadores controlarem sua saúde de forma segura e eficiente.</p>
+        <a href="/login" class="bg-blue-600 text-white px-6 py-3 rounded shadow hover:bg-blue-700 transition">Acessar App</a>
+      </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="sobre" class="py-16 bg-white">
+      <div class="max-w-4xl mx-auto px-4 text-center">
+        <h3 class="text-2xl font-bold mb-4 text-blue-700">Sobre o +Saúde</h3>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          +Saúde centraliza e organiza informações médicas pessoais em um só lugar. Ideal para pacientes, profissionais da saúde e cuidadores, o aplicativo oferece lembretes, histórico médico e gestão de consultas — tudo com segurança e praticidade.
+        </p>
+      </div>
+    </section>
+
+    <!-- Funcionalidades -->
+    <section id="funcionalidades" class="py-16 bg-gray-100">
+      <div class="max-w-5xl mx-auto px-4">
+        <h3 class="text-2xl font-bold mb-10 text-center text-blue-700">Funcionalidades Principais</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-white rounded-lg p-6 shadow">
+            <h4 class="font-semibold text-blue-700 mb-2">Lembretes Inteligentes</h4>
+            <p class="text-gray-700">Notificações para medicamentos, exames e consultas.</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow">
+            <h4 class="font-semibold text-blue-700 mb-2">Histórico Médico</h4>
+            <p class="text-gray-700">Organização de diagnósticos, tratamentos e documentos.</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow">
+            <h4 class="font-semibold text-blue-700 mb-2">Multiusuário</h4>
+            <p class="text-gray-700">Ideal para profissionais e cuidadores acompanharem pacientes.</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow">
+            <h4 class="font-semibold text-blue-700 mb-2">Acesso Seguro</h4>
+            <p class="text-gray-700">Conformidade com regulamentações da área da saúde.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chamada para Ação Secundária -->
+    <section class="bg-white py-16">
+      <div class="max-w-3xl mx-auto text-center px-4">
+        <h3 class="text-2xl font-bold text-blue-700 mb-4">Comece a cuidar da sua saúde hoje</h3>
+        <p class="text-gray-700 mb-6">Aproveite todos os recursos do +Saúde gratuitamente.</p>
+        <a href="/login" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">Acessar Agora</a>
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" class="py-16 bg-gray-100">
+      <div class="max-w-4xl mx-auto px-4">
+        <h3 class="text-2xl font-bold text-center text-blue-700 mb-8">Fale Conosco</h3>
+        <form class="bg-white p-6 rounded shadow space-y-4">
+          <input type="text" placeholder="Nome" class="w-full border border-gray-300 px-4 py-2 rounded" />
+          <input type="email" placeholder="Email" class="w-full border border-gray-300 px-4 py-2 rounded" />
+          <textarea placeholder="Mensagem" class="w-full border border-gray-300 px-4 py-2 rounded h-32"></textarea>
+          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Enviar</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t py-6 text-center text-sm text-gray-600">
+      <p>&copy; 2025 +Saúde. Todos os direitos reservados.</p>
+      <div class="mt-2 space-x-4">
+        <a href="#" class="hover:underline">Política de Privacidade</a>
+        <a href="#sobre" class="hover:underline">Sobre</a>
+      </div>
+    </footer>
+
+  </body>
+</html>
