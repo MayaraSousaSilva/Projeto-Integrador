@@ -1,15 +1,8 @@
-# Ignorar diretórios de módulos Node.js
+# .gitignore
 node_modules/
-
-# Ignorar arquivos de variáveis de ambiente
 .env
-
-# Ignorar logs de depuração e outros arquivos temporários
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.DS_Store # Arquivos do macOS
-Thumbs.db # Arquivos do Windows
 *.log
-*.swp
-*.swo
+.vscode/
+.idea/
+# NOVO: Ignorar a pasta de deploy do GitHub Pages
+docs/

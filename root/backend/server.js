@@ -16,7 +16,7 @@ const User = require('./models/User'); // Model de usuário
 require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; // Porta do servidor, padrão 3000
 
 // Configuração do transportador de e-mail (usando Gmail como exemplo)
 const transporter = nodemailer.createTransport({
@@ -29,8 +29,8 @@ const transporter = nodemailer.createTransport({
 
 // Conexão com MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,  // Removidas: opções depreciadas para versões recentes do driver
+    // useUnifiedTopology: true, // Removidas: opções depreciadas para versões recentes do driver
 })
 .then(() => console.log('✅ Conectado ao MongoDB'))
 .catch((err) => console.error('❌ Erro ao conectar ao MongoDB:', err));
@@ -39,21 +39,64 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use(cors()); // Permite requisições de diferentes origens (frontend)
 app.use(express.json()); // Habilita o Express a lidar com JSON no corpo das requisições
 
-// Servir arquivos estáticos (se o frontend estiver em uma subpasta 'frontend' dentro da raiz do backend)
-app.use(express.static(path.join(__dirname, '../frontend')));
+// =========================================================
+// SERVIR ARQUIVOS ESTÁTICOS E ROTAS DE PÁGINAS DO FRONTEND
+// (AJUSTADO PARA A ESTRUTURA: root/frontend/public E root/frontend/src)
+// =========================================================
 
-// Rotas de páginas (se o backend também servir as páginas HTML diretamente)
-// A URL base '/' irá redirecionar para a página de login
+// Caminho para a pasta 'src' do frontend (contém pages, js, css)
+const frontendSrcPath = path.resolve(__dirname, '..', '..', 'root', 'frontend', 'src');
+app.use(express.static(frontendSrcPath)); // Serve todos os arquivos de 'src'
+
+// Caminho para a pasta 'public' do frontend (contém index.html)
+const frontendPublicPath = path.resolve(__dirname, '..', '..', 'root', 'frontend', 'public');
+app.use(express.static(frontendPublicPath)); // Serve todos os arquivos de 'public'
+
+
+// Rotas para as páginas HTML (agora apontando para os caminhos corretos)
+// A rota raiz '/' servirá o index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/pages/login.html')); // Redireciona para login ao acessar a raiz
+    res.sendFile(path.join(frontendPublicPath, 'index.html'));
 });
 
+// Outras rotas GET para páginas (HTMLs dentro de src/pages)
 app.get('/cadastro', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/pages/cadastro.html'));
+    res.sendFile(path.join(frontendSrcPath, 'pages', 'cadastro.html'));
+});
+
+app.get('/login', (req, res) => { // Rota /login para ser acessada diretamente
+    res.sendFile(path.join(frontendSrcPath, 'pages', 'login.html'));
+});
+
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(frontendSrcPath, 'pages', 'home.html'));
+});
+app.get('/notificacoes', (req, res) => {
+    res.sendFile(path.join(frontendSrcPath, 'pages', 'notificacoes.html'));
+});
+app.get('/historico', (req, res) => {
+    res.sendFile(path.join(frontendSrcPath, 'pages', 'historico.html'));
+});
+app.get('/configuracoes', (req, res) => {
+    res.sendFile(path.join(frontendSrcPath, 'pages', 'configuracoes.html'));
+});
+app.get('/reset-password', (req, res) => {
+    res.sendFile(path.join(frontendSrcPath, 'pages', 'reset-password.html'));
+});
+app.get('/politica-privacidade', (req, res) => {
+    res.sendFile(path.join(frontendSrcPath, 'pages', 'politica-privacidade.html'));
+});
+app.get('/sobre', (req, res) => {
+    res.sendFile(path.join(frontendSrcPath, 'pages', 'sobre.html'));
 });
 
 // ===========================================
-// ROTAS DA API
+// FIM DAS ROTAS DE SERVIR ARQUIVOS DO FRONTEND
+// ===========================================
+
+
+// ===========================================
+// ROTAS DA API (CRUD e Autenticação)
 // ===========================================
 
 // Rota de cadastro (POST)
@@ -70,10 +113,9 @@ app.post('/api/cadastro', async (req, res) => {
             return res.status(409).json({ message: 'Email já cadastrado.' });
         }
 
-        // NOVO: Hashear a senha antes de salvar
-        const hashedPassword = await bcrypt.hash(password, 10); // 10 é o 'saltRounds' ou custo computacional. Um valor entre 10-12 é comum.
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        const novoUsuario = new User({ nome, email, celular, password: hashedPassword }); // Salva a senha hasheada
+        const novoUsuario = new User({ nome, email, celular, password: hashedPassword });
         await novoUsuario.save();
 
         res.status(201).json({ message: 'Cadastro realizado com sucesso!' });
@@ -98,10 +140,9 @@ app.post('/api/login', async (req, res) => {
             return res.status(404).json({ message: 'Usuário não encontrado.' });
         }
 
-        // NOVO: Comparar a senha fornecida com a senha hasheada no banco de dados
         const isMatch = await bcrypt.compare(password, user.password);
 
-        if (!isMatch) { // Se as senhas não corresponderem
+        if (!isMatch) {
             return res.status(401).json({ message: 'Senha incorreta.' });
         }
 
@@ -122,7 +163,7 @@ app.post('/api/login', async (req, res) => {
 // Rota para CRIAR uma nova notificação (POST)
 app.post('/api/notificacoes', async (req, res) => {
     try {
-        const { data, tipo, descricao, horario, usuario, emailUsuario } = req.body; // 'usuario' é o ID do usuário
+        const { data, tipo, descricao, horario, usuario, emailUsuario } = req.body;
 
         if (!usuario) {
             return res.status(400).json({ message: 'ID do usuário é obrigatório para criar notificação.' });
@@ -138,7 +179,6 @@ app.post('/api/notificacoes', async (req, res) => {
 
         await novaNotificacao.save();
 
-        // Lógica para ENVIAR E-MAIL aqui
         if (emailUsuario) {
             const mailOptions = {
                 from: process.env.EMAIL_USER,
@@ -163,7 +203,6 @@ app.post('/api/notificacoes', async (req, res) => {
                 console.log(`📧 E-mail de notificação enviado para: ${emailUsuario}`);
             } catch (emailError) {
                 console.error('❌ Erro ao enviar e-mail de notificação:', emailError);
-                // Não retorna erro 500 para o frontend apenas por falha no e-mail, mas loga
             }
         }
 
@@ -177,17 +216,17 @@ app.post('/api/notificacoes', async (req, res) => {
 // Rota para ATUALIZAR uma notificação existente (PUT)
 app.put('/api/notificacoes/:id', async (req, res) => {
     try {
-        const { id } = req.params; // ID da notificação a ser atualizada
-        const { data, tipo, descricao, horario, usuario, emailUsuario } = req.body; // Dados atualizados e ID do usuário
+        const { id } = req.params;
+        const { data, tipo, descricao, horario, usuario, emailUsuario } = req.body;
 
         if (!id || !usuario) {
             return res.status(400).json({ message: 'ID da notificação e do usuário são obrigatórios para atualizar.' });
         }
 
         const notificacaoAtualizada = await Notificacao.findOneAndUpdate(
-            { _id: id, usuario: usuario }, // Condição: ID da notificação E pertence a este usuário
+            { _id: id, usuario: usuario },
             { data, tipo, descricao, horario },
-            { new: true } // Retorna o documento atualizado
+            { new: true }
         );
 
         if (!notificacaoAtualizada) {
@@ -207,12 +246,11 @@ const upload = multer({ storage });
 // Rota para salvar histórico de saúde (POST)
 app.post('/api/historico', upload.array('arquivos'), async (req, res) => {
     try {
-        // Agora, o emailUsuario é usado para buscar o usuário e o usuarioId é um campo novo
         const { tipoSanguineo, doencas, alergias, medicamentos, emailUsuario, usuarioId } = req.body;
 
         const usuario = await User.findOne({ email: emailUsuario });
 
-        if (!usuario || String(usuario._id) !== String(usuarioId)) { // Confirma que o ID do usuário também corresponde
+        if (!usuario || String(usuario._id) !== String(usuarioId)) {
             return res.status(404).json({ message: 'Usuário não encontrado ou ID de usuário inválido.' });
         }
 
@@ -229,7 +267,7 @@ app.post('/api/historico', upload.array('arquivos'), async (req, res) => {
             historicoExistente.doencas = doencas;
             historicoExistente.alergias = alergias;
             historicoExistente.medicamentos = medicamentos;
-            if (arquivos.length > 0) { // Adiciona arquivos se houver novos, sem substituir os antigos se não houver novos
+            if (arquivos.length > 0) {
                 historicoExistente.arquivos = arquivos;
             }
             await historicoExistente.save();
@@ -287,7 +325,6 @@ app.get('/api/historico', async (req, res) => {
 app.delete('/api/notificacoes/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        // Opcional: Adicionar verificação se a notificação pertence ao usuário logado
         await Notificacao.findByIdAndDelete(id);
         res.json({ message: 'Notificação excluída com sucesso.' });
     } catch (error) {
@@ -298,7 +335,7 @@ app.delete('/api/notificacoes/:id', async (req, res) => {
 
 app.delete('/api/historico/:id', async (req, res) => {
     try {
-        const id = req.params.id; // Aqui 'id' é o ID do documento HistoricoSaude
+        const id = req.params.id;
         await HistoricoSaude.findByIdAndDelete(id);
         res.json({ message: 'Histórico de saúde excluído com sucesso.' });
     } catch (error) {
@@ -307,42 +344,33 @@ app.delete('/api/historico/:id', async (req, res) => {
     }
 });
 
-
-// Atualizar usuário pelo id (rota de configurações)
 app.put('/api/usuario/:id', async (req, res) => {
     const { id } = req.params;
-    // Pega os campos do corpo, incluindo senhaAtual e password (nova senha)
     const { nome, email, celular, senhaAtual, password: novaSenha } = req.body;
 
     try {
-        const user = await User.findById(id); // Buscar o usuário pelo ID
+        const user = await User.findById(id);
         if (!user) {
             return res.status(404).json({ message: 'Usuário não encontrado.' });
         }
 
-        // Validação da SENHA ATUAL:
-        if (senhaAtual) { // Se a senha atual foi fornecida (indica que a senha será alterada ou verificada)
-            const isMatch = await bcrypt.compare(senhaAtual, user.password); // Compara com a senha hasheada no DB
+        if (senhaAtual) {
+            const isMatch = await bcrypt.compare(senhaAtual, user.password);
             if (!isMatch) {
                 return res.status(401).json({ message: 'Senha atual incorreta.' });
             }
-        } else if (novaSenha) { // Se nova senha foi fornecida, mas senha atual não foi
-             // Se exige senha atual para mudar a senha, descomente a linha abaixo
+        } else if (novaSenha) {
             return res.status(400).json({ message: 'Senha atual é obrigatória para alterar a senha.' });
         }
 
-
         const updates = {};
-        // Atualiza os campos apenas se forem fornecidos no corpo da requisição
         if (nome) updates.nome = nome;
         if (email) updates.email = email;
         if (celular) updates.celular = celular;
-        // Se a nova senha for fornecida, hashe-a antes de atualizar
         if (novaSenha) {
             updates.password = await bcrypt.hash(novaSenha, 10);
         }
 
-        // Realiza a atualização no banco de dados
         const usuarioAtualizado = await User.findByIdAndUpdate(id, updates, { new: true });
 
         const userSemSenha = {
@@ -363,7 +391,6 @@ app.delete('/api/usuario/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
-        // Opcional: Deletar também as notificações e histórico associados a este usuário
         await Notificacao.deleteMany({ usuario: id });
         await HistoricoSaude.deleteMany({ usuario: id });
 
@@ -377,28 +404,24 @@ app.delete('/api/usuario/:id', async (req, res) => {
     }
 });
 
-// NOVO: Rota para solicitar recuperação de senha
 app.post('/api/forgot-password', async (req, res) => {
     try {
         const { email } = req.body;
         const user = await User.findOne({ email });
 
         if (!user) {
-            // É uma boa prática não informar se o email existe ou não para segurança
             return res.status(200).json({ message: 'Se o email estiver cadastrado, um link de recuperação será enviado.' });
         }
 
-        // Gera um token único e temporário
         const resetToken = crypto.randomBytes(32).toString('hex');
         user.resetPasswordToken = resetToken;
-        user.resetPasswordExpires = Date.now() + 3600000; // Expira em 1 hora (3600000 ms)
+        user.resetPasswordExpires = Date.now() + 3600000;
         await user.save();
 
-        // Cria o link de redefinição
-        // AJUSTE A PORTA DO SEU FRONTEND AQUI SE NÃO FOR 5500 (ex: seu Live Server)
-        const resetLink = `http://localhost:5500/pages/reset-password.html?token=${resetToken}`;
+        // ATENÇÃO: AJUSTE ESTE URL PARA ONDE SEU FRONTEND ESTÁ HOSPEDADO (ex: GitHub Pages URL)
+        // Por enquanto, pode ser 'http://localhost:5500' para teste local, mas precisa mudar para o deploy
+        const resetLink = `http://localhost:5500/src/pages/reset-password.html?token=${resetToken}`;
 
-        // Configura e-mail de recuperação
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: user.email,
@@ -424,31 +447,28 @@ app.post('/api/forgot-password', async (req, res) => {
     }
 });
 
-// NOVO: Rota para redefinir a senha usando o token
 app.post('/api/reset-password/:token', async (req, res) => {
     try {
         const { token } = req.params;
         const { newPassword } = req.body;
 
-        // Verifica se o token é válido e não expirou
+        if (!newPassword || newPassword.length < 6) {
+            return res.status(400).json({ message: 'A nova senha deve ter pelo menos 6 caracteres e não pode ser vazia.' });
+        }
+
         const user = await User.findOne({
             resetPasswordToken: token,
-            resetPasswordExpires: { $gt: Date.now() } // $gt significa "greater than" (maior que)
+            resetPasswordExpires: { $gt: Date.now() }
         });
 
         if (!user) {
             return res.status(400).json({ message: 'Token de redefinição de senha inválido ou expirado.' });
         }
 
-        if (newPassword.length < 6) { // Validação de senha
-            return res.status(400).json({ message: 'A nova senha deve ter pelo menos 6 caracteres.' });
-        }
-
-        // Hasheia a nova senha
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         user.password = hashedPassword;
-        user.resetPasswordToken = undefined; // Limpa o token após o uso
-        user.resetPasswordExpires = undefined; // Limpa a expiração
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
         await user.save();
 
         res.status(200).json({ message: 'Senha redefinida com sucesso! Você já pode fazer login.' });
@@ -460,7 +480,6 @@ app.post('/api/reset-password/:token', async (req, res) => {
 });
 
 
-// Inicia o servidor
 app.listen(port, () => {
     console.log(`🚀 Servidor rodando em http://localhost:${port}`);
 });
