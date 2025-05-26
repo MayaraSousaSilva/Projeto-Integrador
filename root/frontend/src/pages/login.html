@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
   <a href="https://expo.dev/accounts/ggdelas07/projects/ProjetoIntegrador2/builds/5f90dfdd-8b62-474b-a08b-aaa6a5c53e97"
-     target="_blank"
-     class="app-link-icon"
-     title="Acessar o Aplicativo">
+    target="_blank" class="app-link-icon" title="Acessar o Aplicativo">
     📱
   </a>
 
@@ -28,7 +28,7 @@
         <p><a href="politica-privacidade.html">Política de Privacidade</a></p>
         <p><a href="sobre.html">Sobre</a></p>
       </div>
-      </form>
+    </form>
   </div>
   <script src="../js/login.js"></script>
   <script>
@@ -41,7 +41,7 @@
       }
 
       try {
-        const response = await fetch('http://localhost:3000/api/forgot-password', {
+        const response = await fetch('https://projeto-integrador-o5fj.onrender.com/api/forgot-password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: emailRecuperacao }),
@@ -56,4 +56,5 @@
     });
   </script>
 </body>
+
 </html>
