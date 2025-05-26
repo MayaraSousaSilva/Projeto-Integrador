@@ -1,15 +1,44 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => { // Adicionado 'async' aqui
   const form = document.getElementById('historicoForm');
   const mensagem = document.getElementById('mensagem');
 
-  // Carrega dados do localStorage para preencher inicialmente
-  const dados = JSON.parse(localStorage.getItem('historicoSaude')) || {};
-  if (dados) {
-    document.getElementById('tipoSanguineo').value = dados.tipoSanguineo || "";
-    document.getElementById('doencas').value = dados.doencas || "";
-    document.getElementById('alergias').value = dados.alergias || "";
-    document.getElementById('medicamentos').value = dados.medicamentos || "";
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')); // Pega o usuário logado
+
+  if (!usuarioLogado || !usuarioLogado.email || !usuarioLogado._id) {
+    mensagem.textContent = 'Por favor, faça login para gerenciar seu histórico.';
+    mensagem.style.color = 'red';
+    // Opcional: Redirecionar para login
+    // setTimeout(() => { window.location.href = '../pages/login.html'; }, 1500);
+    return; // Para não tentar carregar ou salvar sem usuário logado
   }
+
+  // --- Lógica para CARREGAR dados do backend ---
+  try {
+    const responseLoad = await fetch(`http://localhost:3000/api/historico?email=${usuarioLogado.email}`);
+    const dados = await responseLoad.json();
+
+    if (responseLoad.ok && dados) { // Se a resposta for OK e houver dados de histórico
+      document.getElementById('tipoSanguineo').value = dados.tipoSanguineo || "";
+      document.getElementById('doencas').value = dados.doencas || "";
+      document.getElementById('alergias').value = dados.alergias || "";
+      document.getElementById('medicamentos').value = dados.medicamentos || "";
+      // Lógica para carregar arquivos (se houver, é mais complexa e depende de como você os armazena e recupera)
+      // Por exemplo, exibir links para download dos arquivos.
+    } else if (responseLoad.status === 404) {
+        // Usuário encontrado, mas sem histórico ainda (mensagem pode ser mais suave)
+        mensagem.textContent = 'Você ainda não possui histórico de saúde salvo. Preencha e salve!';
+        mensagem.style.color = 'blue';
+    } else {
+      mensagem.textContent = 'Erro ao carregar histórico: ' + (dados.message || 'Tente novamente.');
+      mensagem.style.color = 'red';
+    }
+  } catch (error) {
+    console.error('Erro na requisição de carregamento do histórico:', error);
+    mensagem.textContent = 'Erro de conexão ao carregar histórico.';
+    mensagem.style.color = 'red';
+  }
+  // --- Fim da lógica para CARREGAR dados ---
+
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -17,45 +46,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cria o FormData a partir do formulário
     const formData = new FormData(form);
 
-    // Pega o usuário logado
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    // Adiciona o email do usuário logado ao FormData
+    formData.append('emailUsuario', usuarioLogado.email);
 
-    if (usuarioLogado && usuarioLogado.email) {
-      // Adiciona o email ao FormData
-      formData.append('emailUsuario', usuarioLogado.email);
+    // Adiciona o _id do usuário logado ao FormData para o backend
+    formData.append('usuarioId', usuarioLogado._id);
 
-      try {
-        const response = await fetch('http://localhost:3000/api/historico', {
-          method: 'POST',
-          body: formData
-        });
+    try {
+      // A rota POST /api/historico no backend já está configurada para criar OU atualizar
+      const response = await fetch('http://localhost:3000/api/historico', { // URL completa
+        method: 'POST',
+        body: formData // FormData é usado para enviar dados do formulário, incluindo arquivos
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (response.ok) {
-          mensagem.textContent = 'Histórico salvo com sucesso no servidor!';
-          mensagem.style.color = 'green';
-        } else {
-          mensagem.textContent = 'Erro ao salvar histórico: ' + result.message;
-          mensagem.style.color = 'red';
-        }
-      } catch (error) {
-        console.error(error);
-        mensagem.textContent = 'Erro de conexão ao salvar histórico.';
+      if (response.ok) {
+        mensagem.textContent = result.message || 'Histórico salvo com sucesso no servidor!';
+        mensagem.style.color = 'green';
+      } else {
+        mensagem.textContent = 'Erro ao salvar histórico: ' + (result.message || 'Tente novamente.');
         mensagem.style.color = 'red';
       }
-    } else {
-      mensagem.textContent = 'Usuário não logado. Histórico salvo localmente.';
-      mensagem.style.color = 'orange';
+    } catch (error) {
+      console.error(error);
+      mensagem.textContent = 'Erro de conexão ao salvar histórico.';
+      mensagem.style.color = 'red';
     }
 
-    // Salva localmente também (somente texto)
-    const historico = {
-      tipoSanguineo: document.getElementById('tipoSanguineo').value.trim(),
-      doencas: document.getElementById('doencas').value.trim(),
-      alergias: document.getElementById('alergias').value.trim(),
-      medicamentos: document.getElementById('medicamentos').value.trim()
-    };
-    localStorage.setItem('historicoSaude', JSON.stringify(historico));
+
   });
 });

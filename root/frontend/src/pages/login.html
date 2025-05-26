@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
-
 <body>
   <a href="https://expo.dev/accounts/ggdelas07/projects/ProjetoIntegrador2/builds/5f90dfdd-8b62-474b-a08b-aaa6a5c53e97"
-    target="_blank" class="app-link-icon" title="Acessar o Aplicativo">
-    📱 </a>
+     target="_blank"
+     class="app-link-icon"
+     title="Acessar o Aplicativo">
+    📱
+  </a>
 
   <div class="container">
     <h1 class="logo">+SAÚDE</h1>
@@ -21,9 +22,38 @@
       <input type="password" id="password" placeholder="Senha" required />
       <button type="submit">Entrar</button>
       <p>Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
-    </form>
+      <p><a href="#" id="forgotPasswordLink">Esqueci minha senha?</a></p>
+
+      <div class="footer-links">
+        <p><a href="politica-privacidade.html">Política de Privacidade</a></p>
+        <p><a href="sobre.html">Sobre</a></p>
+      </div>
+      </form>
   </div>
   <script src="../js/login.js"></script>
-</body>
+  <script>
+    document.getElementById('forgotPasswordLink').addEventListener('click', async (e) => {
+      e.preventDefault();
+      const emailRecuperacao = prompt("Por favor, digite seu email cadastrado para recuperar a senha:");
+      if (!emailRecuperacao) {
+        alert("Recuperação de senha cancelada.");
+        return;
+      }
 
+      try {
+        const response = await fetch('http://localhost:3000/api/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailRecuperacao }),
+        });
+
+        const result = await response.json();
+        alert(result.message);
+      } catch (error) {
+        console.error('Erro ao solicitar recuperação de senha:', error);
+        alert('Erro ao solicitar recuperação de senha. Tente novamente mais tarde.');
+      }
+    });
+  </script>
+</body>
 </html>
