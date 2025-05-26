@@ -1,0 +1,312 @@
+/* Reset e base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 2rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  min-height: 100vh;
+  position: relative;
+  /* Manter para o ícone do app na tela de login */
+}
+
+
+.container {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 95%;
+  /* MODIFICADO: Aumenta o max-width para telas maiores */
+  max-width: 800px;
+  /* Altere de 600px para um valor maior, como 800px ou mais */
+  margin: auto;
+}
+
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+input,
+textarea,
+select {
+  /* Mantido como antes */
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+input[type="file"] {
+  font-size: 1rem;
+}
+
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #007BFF;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.menu {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.menu a {
+  background: #0f85ca;
+  color: white;
+  padding: 0.75rem;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.menu a:hover {
+  background: #0e76b0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+form button {
+  background-color: #0f85ca;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #0e76b0;
+}
+
+.mensagem {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.btn-excluir {
+  background-color: #dc3545;
+  color: white;
+  padding: 0.75rem;
+  margin-top: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-excluir:hover {
+  background-color: #c82333;
+}
+
+.btn-voltar {
+  display: inline-block;
+  margin-top: 1.25rem;
+  color: #007bff;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-voltar:hover {
+  text-decoration: underline;
+}
+
+/* Responsividade para telas maiores */
+@media (min-width: 768px) {
+  .container {
+    /* MODIFICADO: Ajuste do max-width na media query para telas maiores */
+    max-width: 700px;
+    /* Por exemplo, um pouco menos que o max-width global para dar um respiro */
+    padding: 3rem;
+  }
+
+  .logo {
+    font-size: 3rem;
+  }
+
+  input,
+  textarea,
+  button {
+    font-size: 1.1rem;
+  }
+}
+
+/* Estilos especÃ­ficos da tela Home */
+
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.config-btn {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.notificacao-card {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  color: black;
+  font-weight: bold;
+  word-wrap: break-word;
+}
+
+.home-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-top: 1px solid #ccc;
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem 0;
+  z-index: 999;
+}
+
+.footer-btn {
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.botoes-notificacao {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.editar-btn,
+.excluir-btn {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.editar-btn:hover {
+  background-color: #ffc107;
+}
+
+.excluir-btn:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+.header-home {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header-home .logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #000;
+  margin: 0;
+}
+
+.config-icon img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* Estilos para o link do aplicativo na tela de login */
+.app-link-icon {
+  position: absolute;
+  /* Posição absoluta em relação ao body */
+  bottom: 20px;
+  /* 20px da parte inferior */
+  right: 20px;
+  /* 20px da direita */
+  font-size: 2rem;
+  /* Tamanho do ícone (ajuste conforme necessário) */
+  text-decoration: none;
+  /* Remove sublinhado do link */
+  color: #007BFF;
+  /* Cor do ícone (ajuste conforme o tema) */
+  z-index: 1000;
+  /* Garante que o ícone fique acima de outros elementos */
+  cursor: pointer;
+  /* Indica que é clicável */
+  transition: transform 0.2s ease-in-out;
+  /* Efeito de transição ao passar o mouse */
+}
+
+.app-link-icon:hover {
+  transform: scale(1.1);
+  /* Aumenta um pouco o tamanho ao passar o mouse */
+}
+
+/* Estilos para os links de rodapé na tela de login */
+.footer-links {
+  margin-top: 1.5rem; /* Espaçamento acima dos links */
+  text-align: center; /* Centraliza os links */
+}
+
+.footer-links p {
+  margin: 0.5rem 0; /* Espaçamento entre os parágrafos de link */
+}
+
+.footer-links a {
+  color: #007BFF; /* Mesma cor dos outros links */
+  text-decoration: none; /* Sem sublinhado por padrão */
+  font-size: 0.9rem; /* Um pouco menor que o texto principal */
+}
+
+.footer-links a:hover {
+  text-decoration: underline; /* Sublinha ao passar o mouse */
+}

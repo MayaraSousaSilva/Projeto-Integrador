@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="logo">+SAÚDE</h1>
+    <h2>Cadastro</h2>
+    <form id="cadastroForm">
+      <input type="text" id="nome" placeholder="Nome" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="tel" id="celular" placeholder="Celular (99) 99999-9999" maxlength="15" required />
+      <input type="password" id="password" placeholder="Senha" required />
+      <input type="password" id="confirmPassword" placeholder="Confirmar Senha" required />
+      <button type="submit">Cadastrar</button>
+      <p>Já tem conta? <a href="login.html">Faça login</a></p>
+    </form>
+  </div>
+  <script src="../js/cadastro.js"></script>
+</body>
+</html>

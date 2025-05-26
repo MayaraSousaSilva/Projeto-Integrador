@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histórico de Saúde - +SAÚDE</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="logo">+SAÚDE</h1>
+    <h2>Histórico de Saúde</h2>
+
+    <!-- enctype adicionado para upload de arquivos -->
+    <form id="historicoForm" enctype="multipart/form-data">
+      <label>Tipo Sanguíneo:</label>
+      <input type="text" name="tipoSanguineo" id="tipoSanguineo" placeholder="Ex: O+, A-, B+">
+
+      <label>Doenças:</label>
+      <textarea name="doencas" id="doencas" rows="2" placeholder="Descreva se houver"></textarea>
+
+      <label>Alergias:</label>
+      <textarea name="alergias" id="alergias" rows="2" placeholder="Descreva se houver"></textarea>
+
+      <label>Medicamentos de uso:</label>
+      <textarea name="medicamentos" id="medicamentos" rows="2" placeholder="Descreva se houver"></textarea>
+
+      <label>Arquivos de exames (opcional):</label>
+      <!-- nome ajustado para arquivos[] -->
+      <input type="file" id="arquivoExame" name="arquivos" multiple>
+
+      <!-- Você pode preencher isso dinamicamente via JS se estiver logada -->
+      <input type="hidden" name="emailUsuario" value="usuario@example.com">
+
+      <button type="submit">Salvar Informações</button>
+    </form>
+
+    <p id="mensagem" class="mensagem"></p>
+    <a href="home.html" class="btn-voltar">← Voltar</a>
+  </div>
+
+  <script src="../js/historico.js"></script>
+</body>
+
+</html>

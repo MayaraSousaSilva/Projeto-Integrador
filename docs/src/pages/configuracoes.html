@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações - +SAÚDE</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="logo">+SAÚDE</h1>
+    <h2>Configurações</h2>
+
+    <form id="configForm">
+      <label>Nome:</label>
+      <input type="text" id="nome" placeholder="Seu nome" readonly>
+
+      <label>Email:</label>
+      <input type="email" id="email" placeholder="Seu e-mail" readonly>
+
+      <label>Celular:</label>
+      <input type="tel" id="celular" placeholder="Celular (99) 99999-9999" maxlength="15">
+
+      <label>Senha atual:</label>
+      <input type="password" id="senhaAtual" placeholder="Digite a senha atual">
+
+      <label>Nova senha:</label>
+      <input type="password" id="novaSenha" placeholder="Nova senha">
+
+      <label>Confirmar nova senha:</label>
+      <input type="password" id="confirmarSenha" placeholder="Confirme a nova senha">
+
+      <button type="submit">Salvar Alterações</button>
+    </form>
+
+    <p id="mensagem" class="mensagem"></p>
+
+    <button id="logout" class="btn-logout">Sair da Conta</button>
+
+    <button id="excluirConta" class="btn-excluir">Excluir Conta</button>
+
+    <a href="home.html" class="btn-voltar">← Voltar</a>
+  </div>
+  <script src="../js/configuracoes.js"></script>
+</body>
+
+</html>
