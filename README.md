@@ -17,13 +17,16 @@ O projeto prioriza a segurança dos dados, usabilidade da interface e conformida
 
 ## Participação no projeto
 
-- Denis Rodrigues de Almeida:
-- Gabriel Sousa Silva:
-- Ivisnaldo de Sousa Simplicio:
-- Jackeline Akemi de Moura:
-- Mayara Sousa Silva:
-- Maycon Mycklin da Silva Souza:
+- Denis Rodrigues de Almeida: Front-end
+- Gabriel Sousa Silva: Full-stack (desenvolvedor + integração + ajustes)
+- Ivisnaldo de Sousa Simplicio: Front-end
+- Jackeline Akemi de Moura: Back-end (banco de dados)
+- Mayara Sousa Silva: Web Designer (Gihthub + Landing Page)
+- Maycon Mycklin da Silva Souza: Front-end
   
 ## Links
--
-- 
+- Landing Page
+  [Acesse a Landing Page do +Saúde](https://mayarasousasilva.github.io/LandingPage/)
+
+- Video Apresentação
+  [Assista à apresentação do projeto no YouTube](https://youtu.be/5trvCmtyRL0?si=_IvYGkKWVOS6oZPz)
