@@ -1,25 +1,23 @@
-// deploy-gh-pages.js
-const fs = require('fs-extra'); // Instale: npm install fs-extra
+const fs = require('fs-extra');
 const path = require('path');
 
-const sourceDir = path.resolve(__dirname, 'root', 'frontend');
-const destinationDir = path.resolve(__dirname, 'docs');
+const sourceFrontendDir = path.resolve(__dirname, 'root', 'frontend'); // Pasta 'frontend' completa
+const destinationDir = path.resolve(__dirname, 'docs'); // Pasta de destino raiz do Pages
 
-console.log(`Copiando frontend de: ${sourceDir}`);
+console.log(`Preparando deploy do frontend para GitHub Pages...`);
+console.log(`Copiando conteúdo de: ${sourceFrontendDir}`);
 console.log(`Para a pasta de deploy do GitHub Pages: ${destinationDir}`);
 
 // Garante que a pasta de destino exista e esteja vazia
 fs.emptyDirSync(destinationDir);
 
-// Copia o conteúdo do frontend para a pasta docs
-fs.copySync(sourceDir, destinationDir, { overwrite: true });
+// COPIA O CONTEÚDO DA PASTA 'public' (que contém index.html) DIRETAMENTE PARA 'docs/'
+// O 'index.html' estará diretamente em 'docs/index.html'
+fs.copySync(path.join(sourceFrontendDir, 'public'), destinationDir, { overwrite: true });
+
+// COPIA O CONTEÚDO DA PASTA 'src' PARA 'docs/src/'
+// Isso garante que 'pages/', 'css/', 'js/' estarão em 'docs/src/'
+fs.copySync(path.join(sourceFrontendDir, 'src'), path.join(destinationDir, 'src'), { overwrite: true });
 
 console.log('Cópia do frontend para a pasta docs/ concluída com sucesso!');
-
-// Opcional: Se seu site usa caminhos absolutos como '/css/style.css'
-// e o GitHub Pages o serve em uma subpasta (como nomedeusuario.github.io/repositorio/),
-// você pode precisar ajustar a base URL no index.html.
-// Para este projeto, como estamos usando paths relativos como 'css/style.css' ou 'pages/login.html'
-// dentro dos HTMLs, isso geralmente não é necessário, mas é algo a observar.
-
 console.log('Frontend pronto para deploy no GitHub Pages!');
